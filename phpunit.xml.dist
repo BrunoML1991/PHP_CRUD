@@ -21,9 +21,9 @@
             <env name="DATABASE_CHARSET" value="UTF8"/>
 
             <!-- User ADMIN username/password -->
-            <env name="ADMIN_USER_NAME" value="u18"/>              <!-- CHANGE!!! -->
+            <env name="ADMIN_USER_NAME" value="miw-admin"/>              <!-- CHANGE!!! -->
             <env name="ADMIN_USER_EMAIL" value="admin-miw@example.com"/>
-            <env name="ADMIN_USER_PASSWD" value="*u18*"/>          <!-- CHANGE!!! -->
+            <env name="ADMIN_USER_PASSWD" value="*miw-admin*"/>          <!-- CHANGE!!! -->
 
             <env name="ENTITY_DIR" value="./src/Entity/"/>
             <!-- muestra consulta SQL por la salida estándar-->
