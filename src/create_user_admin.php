@@ -44,7 +44,7 @@ $user->setIsAdmin((boolean)$argv[4] ?? true);
 try {
     $entityManager->persist($user);
     $entityManager->flush();
-    echo 'Created Admin User with ID #' . $user->getId() . PHP_EOL;
+    echo 'Created User with ID #' . $user->getId() . PHP_EOL;
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
 }
