@@ -145,4 +145,12 @@ class Result implements \JsonSerializable
             'time'   => $this->time->format('Y-m-d H:i:s')
         );
     }
+
+    /**
+     * @param int $result
+     */
+    public function setResult(int $result): void
+    {
+        $this->result = $result;
+    }
 }

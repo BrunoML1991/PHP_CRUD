@@ -39,7 +39,7 @@ $user->setUsername((string)$argv[1]);
 $user->setEmail((string)$argv[2]);
 $user->setPassword((string)$argv[3]);
 $user->setEnabled(true);
-$user->setIsAdmin((boolean)$argv[4] ?? true);
+$user->setIsAdmin($argv[4] ?? true);
 
 try {
     $entityManager->persist($user);
