@@ -69,7 +69,6 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
             </body>
             </html>
 MARCA_FORM;
-
     } elseif ('POST' === filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find($_POST['userId']);
