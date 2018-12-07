@@ -26,26 +26,61 @@ $entityManager = Utils::getEntityManager();
 $userRepository = $entityManager->getRepository(User::class);
 $users = $userRepository->findAll();
 
-if (in_array('--json', $argv, true)) {
-    echo json_encode($users, JSON_PRETTY_PRINT);
-} else {
-    $items = 0;
-    echo PHP_EOL . sprintf(
-        '  %2s: %20s %30s %7s' . PHP_EOL,
-        'Id', 'Username:', 'Email:', 'Enabled:'
-    );
+if (isset($argv)) {
+    if (in_array('--json', $argv, true)) {
+        echo json_encode($users, JSON_PRETTY_PRINT);
+    } else {
+        $items = 0;
+        echo PHP_EOL . sprintf(
+                '  %2s: %20s %30s %7s' . PHP_EOL,
+                'Id', 'Username:', 'Email:', 'Enabled:'
+            );
+        /** @var User $user */
+        foreach ($users as $user) {
+            echo sprintf(
+                '- %2d: %20s %30s %7s',
+                $user->getId(),
+                $user->getUsername(),
+                $user->getEmail(),
+                ($user->isEnabled()) ? 'true' : 'false'
+            ),
+            PHP_EOL;
+            $items++;
+        }
+
+        echo "\nTotal: $items users.\n\n";
+    }
+}
+if (isset($_SERVER['REQUEST_METHOD'])) {
+    $tabla = <<< MARCA_TABLA
+    <!doctype html>
+    <html lang="sp">
+    <body>
+    <table style="text-align: center">
+        <tr>
+            <td>Id</td>
+            <td>Nombre de usuario</td>
+            <td>E-mail</td>
+            <td>Habilitado</td>
+        </tr>
+
+MARCA_TABLA;
     /** @var User $user */
     foreach ($users as $user) {
-        echo sprintf(
-            '- %2d: %20s %30s %7s',
-            $user->getId(),
-            $user->getUsername(),
-            $user->getEmail(),
-            ($user->isEnabled()) ? 'true' : 'false'
-        ),
-        PHP_EOL;
-        $items++;
+        $table_row = '<tr>'.
+            '<td>'.$user->getId().'</td>'.
+            '<td>'.$user->getUsername().'</td>'.
+            '<td>'.$user->getEmail().'</td>'.
+            '<td>'.$user->isEnabled().'</td>'.'</tr>';
+        $tabla .= $table_row;
     }
+    $fin_tabla = <<< MARCA_TABLA_FIN
+</table>
+<br>
+<a href="index.php">Índice</a>
+</body>
+</html>
+MARCA_TABLA_FIN;
 
-    echo "\nTotal: $items users.\n\n";
+    echo $tabla . $fin_tabla;
 }

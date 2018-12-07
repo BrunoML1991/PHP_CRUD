@@ -26,17 +26,52 @@ $entityManager = Utils::getEntityManager();
 $resultsRepository = $entityManager->getRepository(Result::class);
 $results = $resultsRepository->findAll();
 
-if ($argc === 1) {
-    echo PHP_EOL
-        . sprintf('%3s - %3s - %22s - %s', 'Id', 'res', 'username', 'time')
-        . PHP_EOL;
-    $items = 0;
+if (isset($argv)) {
+    if ($argc === 1) {
+        echo PHP_EOL
+            . sprintf('%3s - %3s - %22s - %s', 'Id', 'res', 'username', 'time')
+            . PHP_EOL;
+        $items = 0;
+        /* @var Result $result */
+        foreach ($results as $result) {
+            echo $result . PHP_EOL;
+            $items++;
+        }
+        echo PHP_EOL . "Total: $items results.";
+    } elseif (in_array('--json', $argv, true)) {
+        echo json_encode($results, JSON_PRETTY_PRINT);
+    }
+}
+if (isset($_SERVER['REQUEST_METHOD'])) {
+    $tabla = <<< MARCA_TABLA
+    <!doctype html>
+    <html lang="sp">
+    <body>
+    <table style="text-align: center">
+        <tr>
+            <td>Id</td>
+            <td>Resultado</td>
+            <td>Nombre de usuario</td>
+            <td>Fecha de publicación</td>
+        </tr>
+
+MARCA_TABLA;
     /* @var Result $result */
     foreach ($results as $result) {
-        echo $result . PHP_EOL;
-        $items++;
+        $table_row = '<tr>'.
+            '<td>'.$result->getId().'</td>'.
+            '<td>'.$result->getResult().'</td>'.
+            '<td>'.$result->getUser().'</td>'.
+            '<td>'.$result->getTime()->format('Y-m-d H:i:s').'</td>'.'</tr>';
+        $tabla .= $table_row;
     }
-    echo PHP_EOL . "Total: $items results.";
-} elseif (in_array('--json', $argv, true)) {
-    echo json_encode($results, JSON_PRETTY_PRINT);
+    $fin_tabla = <<< MARCA_TABLA_FIN
+</table>
+<br>
+<a href="index.php">Índice</a>
+</body>
+</html>
+MARCA_TABLA_FIN;
+
+    echo $tabla . $fin_tabla;
 }
