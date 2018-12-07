@@ -19,21 +19,55 @@ $dotenv = new \Dotenv\Dotenv(
 $dotenv->load();
 
 $entityManager = Utils::getEntityManager();
-if ($argc == 1 || $argc > 2) {
-    $fich = basename(__FILE__);
-    echo <<< MARCA_FIN
+if (isset($argv)) {
+    if ($argc == 1 || $argc > 2) {
+        $fich = basename(__FILE__);
+        echo <<< MARCA_FIN
 
     Usage: $fich <UserId>
 
 MARCA_FIN;
-    exit(0);
+        exit(0);
+    }
+    $user = new User();
+    $user = $entityManager->getRepository(User::class)->find((int)$argv[1]);
+    try {
+        $entityManager->remove($user);
+        $entityManager->flush();
+        echo 'Deleted User with ID #' . (int)$argv[1] . PHP_EOL;
+    } catch (Exception $exception) {
+        echo $exception->getMessage() . PHP_EOL;
+    }
 }
-$user = new User();
-$user = $entityManager->getRepository(User::class)->find((int)$argv[1]);
-try {
-    $entityManager->remove($user);
-    $entityManager->flush();
-    echo 'Deleted User with ID #' . (int)$argv[1] . PHP_EOL;
-} catch (Exception $exception) {
-    echo $exception->getMessage() . PHP_EOL;
+if (isset($_SERVER['REQUEST_METHOD'])) {
+    if ('GET' === filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
+        echo <<<MARCA_FORM
+            <!doctype html>
+            <html lang="sp">
+            <body>
+            <form action="delete_user.php" method="post">
+                <label for="userId">Id del usuario</label>
+                <input type="text" name="userId" id="userId">
+                <input type="submit">
+            </form>
+            <br>
+            <a href="index.php">Índice</a>
+            </body>
+            </html>
+MARCA_FORM;
+    } elseif ('POST' === filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
+        /** @var User $user */
+        $user = $entityManager->getRepository(User::class)->find($_POST['userId']);
+        if ($user === null) {
+            echo 'Usuario no encontrado' . '<br><br><a href="delete_user.php">Volver a intentar</a>';
+            exit(0);
+        }
+        try {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            echo 'Usuario borrado con ID #' . $_POST['userId'] . '<br><br><a href="index.php">Índice</a>';
+        } catch (Exception $exception) {
+            echo $exception->getMessage() . '<br><br><a href="index.php">Índice</a>';
+        }
+    }
 }

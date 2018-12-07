@@ -13,5 +13,7 @@ echo <<< MARCA
 <li><a href="find_result.php">Encontrar un resultado por su id</a></li>
 <li><a href="create_user_admin.php">Crear un nuevo usuario</a></li>
 <li><a href="create_result.php">Crear un resultado para un usuario</a></li>
+<li><a href="delete_user.php">Borrar un usuario</a></li>
+<li><a href="delete_result.php">Borrar un resultado</a></li>
 </ul>
 MARCA;
