@@ -179,4 +179,12 @@ class Result implements \JsonSerializable
         return $this->time;
     }
 
+    /**
+     * @param \DateTime $time
+     */
+    public function setTime(\DateTime $time): void
+    {
+        $this->time = $time;
+    }
+
 }

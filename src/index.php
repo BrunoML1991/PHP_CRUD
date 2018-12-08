@@ -15,5 +15,7 @@ echo <<< MARCA
 <li><a href="create_result.php">Crear un resultado para un usuario</a></li>
 <li><a href="delete_user.php">Borrar un usuario</a></li>
 <li><a href="delete_result.php">Borrar un resultado</a></li>
+<li><a href="update_user.php">Modificar un usuario</a></li>
+<li><a href="update_result.php">Modificar un resultado</a></li>
 </ul>
 MARCA;
