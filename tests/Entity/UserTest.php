@@ -42,9 +42,12 @@ class UserTest extends TestCase
      */
     public function testConstructor(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user = new User('Bruno','pr@pr.com','aaa',false,true);
+        assertEquals('Bruno',$this->user->getUsername());
+        assertEquals('pr@pr.com',$this->user->getEmail());
+        assertEquals(true,$this->user->validatePassword('aaa'));
+        assertEquals(false,$this->user->isEnabled());
+        assertEquals(true,$this->user->isAdmin());
     }
 
     /**
@@ -52,9 +55,9 @@ class UserTest extends TestCase
      */
     public function testGetId(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertEquals(0,$this->user->getId());
+        $this->user->setId(4);
+        assertEquals(4,$this->user->getId());
     }
 
     /**
@@ -63,9 +66,9 @@ class UserTest extends TestCase
      */
     public function testGetSetUsername(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertEquals('',$this->user->getUsername());
+        $this->user->setUsername('prueba');
+        assertEquals('prueba',$this->user->getUsername());
     }
 
     /**
@@ -74,9 +77,9 @@ class UserTest extends TestCase
      */
     public function testGetSetEmail(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertEquals('',$this->user->getEmail());
+        $this->user->setEmail('pr@pr.com');
+        assertEquals('pr@pr.com',$this->user->getEmail());
     }
 
     /**
@@ -85,9 +88,9 @@ class UserTest extends TestCase
      */
     public function testIsSetEnabled(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertEquals(true,$this->user->isEnabled());
+        $this->user->setEnabled(false);
+        assertEquals(false,$this->user->isEnabled());
     }
 
     /**
@@ -96,9 +99,9 @@ class UserTest extends TestCase
      */
     public function testIsSetAdmin(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertEquals(false,$this->user->isAdmin());
+        $this->user->setIsAdmin(true);
+        assertEquals(true,$this->user->isAdmin());
     }
 
     /**
@@ -107,9 +110,9 @@ class UserTest extends TestCase
      */
     public function testSetValidatePassword(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setPassword('aaa');
+        assertEquals(true,$this->user->validatePassword('aaa'));
+        assertEquals(false,$this->user->validatePassword('ccc'));
     }
 
     /**
@@ -117,9 +120,8 @@ class UserTest extends TestCase
      */
     public function testToString(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setUsername('pr');
+        assertEquals('pr',$this->user->__toString());
     }
 
     /**
@@ -127,8 +129,8 @@ class UserTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        assertArrayHasKey('id',$this->user->jsonSerialize());
+        $prueba = json_encode($this->user->jsonSerialize());
+        assertJson($prueba);
     }
 }
